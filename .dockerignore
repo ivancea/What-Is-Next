@@ -1,0 +1,10 @@
+.git
+.gitignore
+bin
+obj
+
+ClientApp/node_modules/
+
+LICENSE
+README.md
+docker-compose.yml

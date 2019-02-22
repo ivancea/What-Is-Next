@@ -1,0 +1,11 @@
+###LANGUAGES###
+::ROWS::
+Basics
+Standard library
+Common libraries -> Navigation to Library graph?
+
+::COLUMNS::
+Basic
+Medium
+Advanced
+Tricks
