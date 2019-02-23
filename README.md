@@ -8,16 +8,27 @@ There will also be a rating system to rank graphs by category/language/etc.
 
 Each graph consists in a set of skills or concepts about the language/library (nodes) that may depend on other concepts that should be *mastered* first. A user will be able to mark his progress. Also, if multiple graphs for the same language/library exist, the progress marked in a concept will be also marked in the same concept in the other graphs, to allow the users to track their progress across different suggested "learning paths".
 
-## **Views**
+## TODO
 
-### COLUMNS
+### Model
+
+- Graph: userId - language (or library) - name - description
+- Column: graphId - name - description
+- Row: graphId - name - description
+- Concept: graphId - columnId - rowId - name - description - dependencies
+
+View-based suggestions for languages, columns and rows, ordered by usage (Maybe config entity with default columns, rows...)
+
+## Views
+
+### DEFAULT COLUMNS
 
 - Basic
 - Medium
 - Advanced
 - Tricks
 
-### ROWS
+### DEFAULT ROWS
 
 #### Languages
 
