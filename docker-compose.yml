@@ -6,3 +6,22 @@ services:
         ports:
             - "80:80"
             - "443:443"
+        environment:
+            COUCHBASE_SERVER: "http://couchbase"
+            COUCHBASE_USERNAME: Administrator
+            COUCHBASE_PASSWORD: password
+        depends_on:
+            - "couchbase"
+        restart: always
+    couchbase:
+        image: "couchbase/server:6.0.1"
+        ports:
+            - 8091:8091
+            - 8092:8092
+            - 8093:8093
+            - 8094:8094
+            - 11210:11210
+        volumes:
+            - couchbase-data:/opt/couchbase/var
+volumes:
+  couchbase-data:
