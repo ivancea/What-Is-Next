@@ -7,10 +7,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Couchbase.Extensions.DependencyInjection;
-using WhatIsNext.Model.Buckets;
 using WhatIsNext.Services;
 using Swashbuckle.AspNetCore.Swagger;
+using WhatIsNext.Model.Contexts;
+using Microsoft.EntityFrameworkCore;
 
 namespace WhatIsNext
 {
@@ -39,15 +39,12 @@ namespace WhatIsNext
                 c.SwaggerDoc("v1", new Info { Title = "What Is Next", Version = "v1" });
             });
 
-            services.AddCouchbase(client =>
+            services.AddDbContext<WinContext>(options =>
             {
-                client.Servers = new List<Uri> { new Uri(Environment.GetEnvironmentVariable("COUCHBASE_SERVER")) };
-                client.UseSsl = false;
+                var connectionString = Environment.GetEnvironmentVariable("POSTGRES_CONNECTION_STRING");
 
-                client.Username = Environment.GetEnvironmentVariable("COUCHBASE_USERNAME");
-                client.Password = Environment.GetEnvironmentVariable("COUCHBASE_PASSWORD");
-            })
-                .AddCouchbaseBucket<IGraphsBucketProvider>("graphs", null);
+                options.UseNpgsql(connectionString);
+            });
 
             services.AddTransient<IGraphService, GraphService>();
         }
@@ -95,10 +92,13 @@ namespace WhatIsNext
                 }
             });
 
-            applicationLifetime.ApplicationStopped.Register(() =>
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
-                app.ApplicationServices.GetRequiredService<ICouchbaseLifetimeService>().Close();
-            });
+                using (var context = serviceScope.ServiceProvider.GetService<WinContext>())
+                {
+                    context.Database.Migrate();
+                }
+            }
         }
     }
 }

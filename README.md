@@ -12,12 +12,12 @@ Each graph consists in a set of skills or concepts about the language/library (n
 
 ### Model
 
-- Graph: userId - language (or library) - name - description
+- Graph: userId - topic (language, library...) - name - description
 - Column: graphId - name - description
 - Row: graphId - name - description
 - Concept: graphId - columnId - rowId - name - description - dependencies
 
-View-based suggestions for languages, columns and rows, ordered by usage (Maybe config entity with default columns, rows...)
+Suggestions for topics columns and rows, ordered by usage (Maybe config entity with default columns, rows...)
 
 ## Views
 

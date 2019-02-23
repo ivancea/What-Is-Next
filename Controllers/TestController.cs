@@ -20,7 +20,6 @@ namespace WhatIsNext.Controllers
         [HttpGet("[action]")]
         public void Test()
         {
-            graphService.test();
         }
     }
 }

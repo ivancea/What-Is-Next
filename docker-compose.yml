@@ -7,21 +7,19 @@ services:
             - "80:80"
             - "443:443"
         environment:
-            COUCHBASE_SERVER: "http://couchbase"
-            COUCHBASE_USERNAME: Administrator
-            COUCHBASE_PASSWORD: password
+            POSTGRES_CONNECTION_STRING: "Host=db;Database=win;Username=win;Password=win"
         depends_on:
-            - "couchbase"
+            - "db"
         restart: always
-    couchbase:
-        image: "couchbase/server:6.0.1"
+    db:
+        image: postgres:11
         ports:
-            - 8091:8091
-            - 8092:8092
-            - 8093:8093
-            - 8094:8094
-            - 11210:11210
+            - "5432:5432"
+        environment:
+            POSTGRES_DB: "win"
+            POSTGRES_USER: "win"
+            POSTGRES_PASSWORD: "win"
         volumes:
-            - couchbase-data:/opt/couchbase/var
+            - db-data:/var/lib/postgresql/data
 volumes:
-  couchbase-data:
+  db-data:
