@@ -8,14 +8,11 @@ using System.Threading.Tasks;
 
 namespace WhatIsNext.Model.Entities
 {
-    public class Graph
+    public class Concept
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-
-        [Required]
-        public string Topic { get; set; }
 
         [Required]
         public string Name { get; set; }
@@ -23,6 +20,9 @@ namespace WhatIsNext.Model.Entities
         [Required]
         public string Description { get; set; }
 
-        public virtual ICollection<Concept> Concepts { get; set; }
+        public virtual ICollection<Concept> Dependencies { get; set; }
+
+        [Required]
+        public virtual Graph Graph { get; set; }
     }
 }

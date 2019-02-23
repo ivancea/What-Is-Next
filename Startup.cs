@@ -11,6 +11,10 @@ using WhatIsNext.Services;
 using Swashbuckle.AspNetCore.Swagger;
 using WhatIsNext.Model.Contexts;
 using Microsoft.EntityFrameworkCore;
+using WhatIsNext.Controllers;
+using WhatIsNext.Mappers;
+using WhatIsNext.Model.Entities;
+using WhatIsNext.Dtos;
 
 namespace WhatIsNext
 {
@@ -46,7 +50,16 @@ namespace WhatIsNext
                 options.UseNpgsql(connectionString);
             });
 
+            services.AddTransient<IClassMapping<Graph, GraphDto>, GraphToGraphDtoMapping>();
+            services.AddTransient<IClassMapping<GraphDto, Graph>, GraphDtoToGraphMapping>();
+            services.AddTransient<IEntityUpdater<Graph>, GraphUpdater>();
+            services.AddTransient<IClassMapping<Concept, ConceptDto>, ConceptToConceptDtoMapping>();
+            services.AddTransient<IClassMapping<ConceptDto, Concept>, ConceptDtoToConceptMapping>();
+            services.AddTransient<IEntityUpdater<Concept>, ConceptUpdater>();
+
             services.AddTransient<IGraphService, GraphService>();
+            
+            services.AddTransient<GraphController>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

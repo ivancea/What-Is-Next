@@ -14,5 +14,7 @@ namespace WhatIsNext.Model.Contexts
         }
         
         public DbSet<Graph> Graphs { get; set; }
+        
+        public DbSet<Concept> Concepts { get; set; }
     }
 }
