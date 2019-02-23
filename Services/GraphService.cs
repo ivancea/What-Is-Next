@@ -68,20 +68,19 @@ namespace WhatIsNext.Services
 
         public ConceptDto GetConceptById(int id)
         {
-            Concept concept = winContext.Concepts
-                .Find(id);
-
-            if (concept == null) {
-                return null;
-            }
-
-            return conceptToConceptDtoMapping.Map(concept);
+            return winContext.Concepts
+                .Include(c => c.Graph)
+                .Include(c => c.Dependencies)
+                .Where(c => c.Id == id)
+                .Select(conceptToConceptDtoMapping.Map)
+                .FirstOrDefault();
         }
 
         public ICollection<ConceptDto> ListConceptsByGraphId(int graphId)
         {
             return winContext.Concepts
                 .Include(c => c.Graph)
+                .Include(c => c.Dependencies)
                 .Where(c => c.Graph.Id == graphId)
                 .Select(conceptToConceptDtoMapping.Map)
                 .ToList();
@@ -99,10 +98,38 @@ namespace WhatIsNext.Services
             {
                 Name = "Standard library",
                 Description = "Standard library",
-                Dependencies = new List<Concept>
-                {
-                    basicsConcept
-                }
+            };
+
+            Concept externalLibraryConcept = new Concept
+            {
+                Name = "External library",
+                Description = "External library",
+            };
+
+            ConceptDependency stdToBasicsDependency = new ConceptDependency {
+                Concept = stdConcept,
+                Dependency = basicsConcept,
+            };
+
+            ConceptDependency externalToStdDependency = new ConceptDependency {
+                Concept = externalLibraryConcept,
+                Dependency = stdConcept,
+            };
+
+            ConceptDependency externalToBasicsDependency = new ConceptDependency {
+                Concept = externalLibraryConcept,
+                Dependency = basicsConcept,
+            };
+
+            stdConcept.Dependencies = new List<ConceptDependency>
+            {
+                stdToBasicsDependency,
+            };
+
+            externalLibraryConcept.Dependencies = new List<ConceptDependency>
+            {
+                externalToStdDependency,
+                externalToBasicsDependency,
             };
 
             Graph graph = new Graph {
@@ -112,12 +139,13 @@ namespace WhatIsNext.Services
                 Concepts = new List<Concept>
                 {
                     basicsConcept,
-                    stdConcept
+                    stdConcept,
+                    externalLibraryConcept,
                 }
             };
 
             winContext.Graphs.Add(graph);
-            
+
             winContext.SaveChanges();
         }
     }
