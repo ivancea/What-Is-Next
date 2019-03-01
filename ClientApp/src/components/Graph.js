@@ -53,7 +53,7 @@ export default function Graph({ selectedGraph }) {
           )
         )
       );
-      
+
       diagram.layout.direction = 90;
 
       return () => {
@@ -64,14 +64,14 @@ export default function Graph({ selectedGraph }) {
 
   return (
     <div>
+      <div id="diagram" style={{border: "solid 1px black", background: "white", width: "100%", height: "500px"}}></div>
+
       {
         concepts
           ? concepts.map(concept =>
             <div>{concept.name} - {concept.description}</div>)
           : null
       }
-
-      <div id="diagram" style={{border: "solid 1px black", background: "white", width: "100%", height: "500px"}}></div>
     </div>
   );
 }
