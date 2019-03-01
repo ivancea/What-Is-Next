@@ -13,17 +13,17 @@ export default function TopicSelector({ url, elementName, keySelector, render, s
         return (
             <div>
                 <button onClick={() => onElementSelected(null)}>Back</button>
-                Selected {elementName}: {render(selectedElement)}
+                <b>Selected {elementName}:</b> {render(selectedElement)}
             </div>
         );
     }
 
     return elements
-        ? <div style={{cursor: "pointer"}}>
+        ? <ul>
             {elements.map(element =>
-                <div key={keySelector(element)} onClick={() => onElementSelected(element)}>
+                <li style={{cursor: "pointer"}} key={keySelector(element)} onClick={() => onElementSelected(element)}>
                     {render(element)}
-                </div>)}
-        </div>
+                </li>)}
+        </ul>
         : null;
 }

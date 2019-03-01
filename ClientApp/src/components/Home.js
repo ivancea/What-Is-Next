@@ -24,6 +24,7 @@ export function Home() {
       {
         selectedTopic
           ? <>
+              <hr />
               <ApiListSelector
                 url={`/api/topics/${encodeURIComponent(selectedTopic)}/graphs`}
                 elementName="graph"
@@ -34,7 +35,10 @@ export function Home() {
 
                 {
                   selectedGraph
-                    ? <Graph selectedGraph={selectedGraph} />
+                    ? <>
+                      <hr />
+                      <Graph selectedGraph={selectedGraph} />
+                    </>
                     : null
                 }
               </>
