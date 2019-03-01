@@ -43,10 +43,52 @@ namespace WhatIsNext.Controllers
             return graphService.GetGraphById(id);
         }
 
-        [HttpGet("graphs/{id}/concepts")]
-        public ICollection<ConceptDto> ListConceptsByGraphId(int id)
+        [HttpPost("graphs")]
+        public void AddGraph([FromBody]GraphDto graphDto)
         {
-            return graphService.ListConceptsByGraphId(id);
+            graphService.AddGraph(graphDto);
+        }
+
+        [HttpPut("graphs/{id}")]
+        public void UpdateGraph(int id, [FromBody]GraphDto graphDto)
+        {
+            graphService.UpdateGraph(id, graphDto);
+        }
+
+        [HttpDelete("graphs/{id}")]
+        public void DeleteGraph(int id)
+        {
+            graphService.DeleteGraph(id);
+        }
+
+        [HttpGet("graphs/{graphId}/concepts")]
+        public ICollection<ConceptDto> ListConceptsByGraphId(int graphId)
+        {
+            return graphService.ListConceptsByGraphId(graphId);
+        }
+
+        [HttpGet("graphs/{graphId}/concepts/{id}")]
+        public ConceptDto GetConceptById(int graphId, int id)
+        {
+            return graphService.GetConceptById(graphId, id);
+        }
+
+        [HttpPost("graphs/{graphId}/concepts")]
+        public void AddConcept(int graphId, [FromBody]ConceptDto conceptDto)
+        {
+            graphService.AddConcept(graphId, conceptDto);
+        }
+
+        [HttpPut("graphs/{graphId}/concepts/{id}")]
+        public void UpdateConcept(int graphId, int id, [FromBody]ConceptDto conceptDto)
+        {
+            graphService.UpdateConcept(graphId, id, conceptDto);
+        }
+
+        [HttpDelete("graphs/{graphId}/concepts/{id}")]
+        public void DeleteConcept(int graphId, int id)
+        {
+            graphService.DeleteConcept(graphId, id);
         }
     }
 }

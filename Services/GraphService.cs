@@ -38,54 +38,6 @@ namespace WhatIsNext.Services
             this.conceptUpdater = conceptUpdater;
         }
 
-        public ICollection<string> ListTopics()
-        {
-            return winContext.Graphs
-                .Select(g => g.Topic)
-                .Distinct()
-                .ToList();
-        }
-
-        public ICollection<GraphDto> ListGraphsByTopic(string topic)
-        {
-            return winContext.Graphs
-                .Where(g => g.Topic == topic)
-                .Select(graphToGraphDtoMapping.Map)
-                .ToList();
-        }
-
-        public GraphDto GetGraphById(int id)
-        {
-            Graph graph = winContext.Graphs
-                .Find(id);
-
-            if (graph == null) {
-                return null;
-            }
-
-            return graphToGraphDtoMapping.Map(graph);
-        }
-
-        public ConceptDto GetConceptById(int id)
-        {
-            return winContext.Concepts
-                .Include(c => c.Graph)
-                .Include(c => c.Dependencies)
-                .Where(c => c.Id == id)
-                .Select(conceptToConceptDtoMapping.Map)
-                .FirstOrDefault();
-        }
-
-        public ICollection<ConceptDto> ListConceptsByGraphId(int graphId)
-        {
-            return winContext.Concepts
-                .Include(c => c.Graph)
-                .Include(c => c.Dependencies)
-                .Where(c => c.Graph.Id == graphId)
-                .Select(conceptToConceptDtoMapping.Map)
-                .ToList();
-        }
-
         public void InsertTestData()
         {
             Concept basicsConcept = new Concept
@@ -147,6 +99,139 @@ namespace WhatIsNext.Services
             winContext.Graphs.Add(graph);
 
             winContext.SaveChanges();
+        }
+
+        public ICollection<string> ListTopics()
+        {
+            return winContext.Graphs
+                .Select(g => g.Topic)
+                .Distinct()
+                .ToList();
+        }
+
+        public ICollection<GraphDto> ListGraphsByTopic(string topic)
+        {
+            return winContext.Graphs
+                .Where(g => g.Topic == topic)
+                .Select(graphToGraphDtoMapping.Map)
+                .ToList();
+        }
+
+        public GraphDto GetGraphById(int id)
+        {
+            Graph graph = winContext.Graphs
+                .SingleOrDefault(g => g.Id == id);
+
+            if (graph == null) {
+                return null;
+            }
+
+            return graphToGraphDtoMapping.Map(graph);
+        }
+
+        public void AddGraph(GraphDto graphDto)
+        {
+            Graph graph = graphDtoToGraphMapping.Map(graphDto);
+
+            winContext.Graphs.Add(graph);
+            winContext.SaveChanges();
+        }
+
+        public void UpdateGraph(int id, GraphDto graphDto)
+        {
+            Graph actualGraph = winContext.Graphs
+                .SingleOrDefault(g => g.Id == id);
+
+            if (actualGraph == null)
+            {
+                return;
+            }
+            
+            Graph graph = graphDtoToGraphMapping.Map(graphDto);
+
+            graphUpdater.Update(actualGraph, graph);
+
+            winContext.SaveChanges();
+        }
+
+        public void DeleteGraph(int id)
+        {
+            Graph graph = winContext.Graphs
+                .SingleOrDefault(g => g.Id == id);
+
+            if (graph != null) {
+                winContext.Graphs.Remove(graph);
+                winContext.SaveChanges();
+            }
+        }
+
+        public ICollection<ConceptDto> ListConceptsByGraphId(int graphId)
+        {
+            return winContext.Concepts
+                .Include(c => c.Graph)
+                .Include(c => c.Dependencies)
+                .Where(c => c.Graph.Id == graphId)
+                .Select(conceptToConceptDtoMapping.Map)
+                .ToList();
+        }
+
+        public ConceptDto GetConceptById(int graphId, int id)
+        {
+            return winContext.Concepts
+                .Include(c => c.Graph)
+                .Include(c => c.Dependencies)
+                .Where(c => c.Id == id && c.Graph.Id == graphId)
+                .Select(conceptToConceptDtoMapping.Map)
+                .FirstOrDefault();
+        }
+
+        public void AddConcept(int graphId, ConceptDto conceptDto)
+        {
+            Graph graph = winContext.Graphs
+                .SingleOrDefault(g => g.Id == graphId);
+
+            Concept concept = conceptDtoToConceptMapping.Map(conceptDto);
+
+            concept.Graph = graph;
+
+            concept.Dependencies = winContext.Concepts
+                .Where(c => conceptDto.DependenciesIds.Contains(c.Id))
+                .Select(c => new ConceptDependency() {
+                    Concept = concept,
+                    Dependency = c,
+                })
+                .ToList();
+
+            winContext.Concepts.Add(concept);
+            winContext.SaveChanges();
+        }
+
+        public void UpdateConcept(int graphId, int id, ConceptDto conceptDto)
+        {
+            Concept actualConcept = winContext.Concepts
+                .SingleOrDefault(c => c.Id == id && c.Graph.Id == graphId);
+
+            if (actualConcept == null)
+            {
+                return;
+            }
+            
+            Concept concept = conceptDtoToConceptMapping.Map(conceptDto);
+
+            conceptUpdater.Update(actualConcept, concept);
+
+            winContext.SaveChanges();
+        }
+
+        public void DeleteConcept(int graphId, int id)
+        {
+            Concept concept = winContext.Concepts
+                .SingleOrDefault(c => c.Id == id && c.Graph.Id == graphId);
+            
+            if (concept != null) {
+                winContext.Concepts.Remove(concept);
+                winContext.SaveChanges();
+            }
         }
     }
 }
