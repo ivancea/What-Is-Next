@@ -2,6 +2,7 @@ version: '3'
 
 services:
     server:
+        restart: unless-stopped
         build: .
         ports:
             - "80:80"
@@ -12,6 +13,7 @@ services:
             - "db"
         restart: always
     db:
+        restart: unless-stopped
         image: postgres:11
         ports:
             - "5432:5432"
