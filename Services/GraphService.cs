@@ -195,6 +195,7 @@ namespace WhatIsNext.Services
             concept.Graph = graph;
 
             concept.Dependencies = winContext.Concepts
+                .Where(c => c.Graph.Id == graphId)
                 .Where(c => conceptDto.DependenciesIds.Contains(c.Id))
                 .Select(c => new ConceptDependency() {
                     Concept = concept,
@@ -209,6 +210,7 @@ namespace WhatIsNext.Services
         public void UpdateConcept(int graphId, int id, ConceptDto conceptDto)
         {
             Concept actualConcept = winContext.Concepts
+                .Include(c => c.Dependencies)
                 .SingleOrDefault(c => c.Id == id && c.Graph.Id == graphId);
 
             if (actualConcept == null)
@@ -219,6 +221,16 @@ namespace WhatIsNext.Services
             Concept concept = conceptDtoToConceptMapping.Map(conceptDto);
 
             conceptUpdater.Update(actualConcept, concept);
+
+            winContext.RemoveRange(actualConcept.Dependencies);
+
+            actualConcept.Dependencies = winContext.Concepts
+                .Where(c => conceptDto.DependenciesIds.Contains(c.Id))
+                .Select(c => new ConceptDependency() {
+                    Concept = actualConcept,
+                    Dependency = c,
+                })
+                .ToList();
 
             winContext.SaveChanges();
         }
