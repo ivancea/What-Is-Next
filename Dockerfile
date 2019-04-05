@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.2-sdk as build
+FROM mcr.microsoft.com/dotnet/core/sdk:3.0 as build
 WORKDIR /app
 
 RUN curl -sL https://deb.nodesource.com/setup_11.x | bash - \
@@ -15,7 +15,7 @@ RUN cd ClientApp \
 COPY . .
 RUN dotnet publish -c Release -o build
 
-FROM microsoft/dotnet:2.2-aspnetcore-runtime
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.0
 WORKDIR /app
 
 COPY --from=build /app/build .

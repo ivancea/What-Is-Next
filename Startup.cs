@@ -5,16 +5,18 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using WhatIsNext.Services;
+using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Swagger;
-using WhatIsNext.Model.Contexts;
-using Microsoft.EntityFrameworkCore;
 using WhatIsNext.Controllers;
+using WhatIsNext.Model.Contexts;
 using WhatIsNext.Mappers;
 using WhatIsNext.Model.Entities;
 using WhatIsNext.Dtos;
+using WhatIsNext.Services;
 
 namespace WhatIsNext
 {
@@ -30,7 +32,9 @@ namespace WhatIsNext
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
+                .AddNewtonsoftJson();
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -40,7 +44,7 @@ namespace WhatIsNext
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "What Is Next", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "What Is Next", Version = "v1" });
             });
 
             services.AddDbContext<WinContext>(options =>
@@ -63,7 +67,7 @@ namespace WhatIsNext
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IApplicationLifetime applicationLifetime)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHostApplicationLifetime applicationLifetime)
         {
             if (env.IsDevelopment())
             {
