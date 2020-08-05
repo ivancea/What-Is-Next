@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import go, { Diagram } from 'gojs';
+import go from 'gojs';
 
 export default function Graph({ selectedGraph }) {
   const [concepts, setConcepts] = useState(null);
@@ -10,7 +10,11 @@ export default function Graph({ selectedGraph }) {
       .then(fetchedConcepts => {
         setConcepts(fetchedConcepts);
       });
-  }, []);
+    
+    return () => {
+      setConcepts(null);
+    };
+  }, [selectedGraph.id]);
 
   useEffect(() => {
     if (concepts) {
