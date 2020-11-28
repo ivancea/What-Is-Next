@@ -58,33 +58,12 @@ namespace WhatIsNext.Services
                 Description = "External library",
             };
 
-            ConceptDependency stdToBasicsDependency = new ConceptDependency {
-                Concept = stdConcept,
-                Dependency = basicsConcept,
-            };
+            stdConcept.Dependencies.Add(basicsConcept);
+            externalLibraryConcept.Dependencies.Add(stdConcept);
+            externalLibraryConcept.Dependencies.Add(basicsConcept);
 
-            ConceptDependency externalToStdDependency = new ConceptDependency {
-                Concept = externalLibraryConcept,
-                Dependency = stdConcept,
-            };
-
-            ConceptDependency externalToBasicsDependency = new ConceptDependency {
-                Concept = externalLibraryConcept,
-                Dependency = basicsConcept,
-            };
-
-            stdConcept.Dependencies = new List<ConceptDependency>
+            Graph graph = new Graph
             {
-                stdToBasicsDependency,
-            };
-
-            externalLibraryConcept.Dependencies = new List<ConceptDependency>
-            {
-                externalToStdDependency,
-                externalToBasicsDependency,
-            };
-
-            Graph graph = new Graph {
                 Topic = "C++",
                 Name = "Test C++ graph",
                 Description = "Test graph",
@@ -122,7 +101,8 @@ namespace WhatIsNext.Services
             Graph graph = winContext.Graphs
                 .SingleOrDefault(g => g.Id == id);
 
-            if (graph == null) {
+            if (graph == null)
+            {
                 return null;
             }
 
@@ -146,7 +126,7 @@ namespace WhatIsNext.Services
             {
                 return;
             }
-            
+
             Graph graph = graphDtoToGraphMapping.Map(graphDto);
 
             graphUpdater.Update(actualGraph, graph);
@@ -159,7 +139,8 @@ namespace WhatIsNext.Services
             Graph graph = winContext.Graphs
                 .SingleOrDefault(g => g.Id == id);
 
-            if (graph != null) {
+            if (graph != null)
+            {
                 winContext.Graphs.Remove(graph);
                 winContext.SaveChanges();
             }
@@ -194,14 +175,13 @@ namespace WhatIsNext.Services
 
             concept.Graph = graph;
 
-            concept.Dependencies = winContext.Concepts
+            foreach (var dependency in winContext.Concepts
                 .Where(c => c.Graph.Id == graphId)
                 .Where(c => conceptDto.DependenciesIds.Contains(c.Id))
-                .Select(c => new ConceptDependency() {
-                    Concept = concept,
-                    Dependency = c,
-                })
-                .ToList();
+                .ToList())
+            {
+                concept.Dependencies.Add(dependency);
+            }
 
             winContext.Concepts.Add(concept);
             winContext.SaveChanges();
@@ -217,20 +197,19 @@ namespace WhatIsNext.Services
             {
                 return;
             }
-            
+
             Concept concept = conceptDtoToConceptMapping.Map(conceptDto);
 
             conceptUpdater.Update(actualConcept, concept);
 
             winContext.RemoveRange(actualConcept.Dependencies);
 
-            actualConcept.Dependencies = winContext.Concepts
+            foreach (var dependency in winContext.Concepts
                 .Where(c => conceptDto.DependenciesIds.Contains(c.Id))
-                .Select(c => new ConceptDependency() {
-                    Concept = actualConcept,
-                    Dependency = c,
-                })
-                .ToList();
+                .ToList())
+            {
+                actualConcept.Dependencies.Add(dependency);
+            }
 
             winContext.SaveChanges();
         }
@@ -239,8 +218,9 @@ namespace WhatIsNext.Services
         {
             Concept concept = winContext.Concepts
                 .SingleOrDefault(c => c.Id == id && c.Graph.Id == graphId);
-            
-            if (concept != null) {
+
+            if (concept != null)
+            {
                 winContext.Concepts.Remove(concept);
                 winContext.SaveChanges();
             }

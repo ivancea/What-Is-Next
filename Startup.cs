@@ -49,7 +49,7 @@ namespace WhatIsNext
 
             services.AddDbContext<WinContext>(options =>
             {
-                var connectionString = Environment.GetEnvironmentVariable("POSTGRES_CONNECTION_STRING");
+                var connectionString = Configuration.GetValue<string>("POSTGRES_CONNECTION_STRING");
 
                 options.UseNpgsql(connectionString);
             });

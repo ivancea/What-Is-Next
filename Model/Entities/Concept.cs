@@ -20,9 +20,9 @@ namespace WhatIsNext.Model.Entities
         [Required]
         public string Description { get; set; }
 
-        public virtual ICollection<ConceptDependency> Dependencies { get; set; }
+        public virtual ICollection<Concept> Dependencies { get; } = new List<Concept>();
 
-        public virtual ICollection<ConceptDependency> DependantConcepts { get; set; }
+        public virtual ICollection<Concept> DependantConcepts { get; } = new List<Concept>();
 
         [Required]
         public virtual Graph Graph { get; set; }
