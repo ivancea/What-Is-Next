@@ -1,0 +1,182 @@
+<style>
+  body, #graph, #graph > svg {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    padding: 0;
+    margin: 0;
+  }
+</style>
+
+<div id="graph" style="text-align: center;"></div>
+
+
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="https://unpkg.com/@hpcc-js/wasm@0.3.11/dist/index.min.js"></script>
+<script src="https://unpkg.com/d3-graphviz@3.0.5/build/d3-graphviz.js"></script>
+<script>
+  const graphviz = d3
+      .select("#graph")
+      .graphviz()
+      .transition(function () {
+        return d3
+          .transition("main")
+          .ease(d3.easeLinear)
+          .delay(500)
+          .duration(1500);
+      })
+      .logEvents(true)
+      .on("initEnd", render);
+
+  const dot = `
+digraph G {
+    graph [
+        label = "Programming languages\nCommon concepts"
+    ]
+    node [
+        style = filled
+        shape = rectangle
+    ]
+    subgraph cluster_legend {
+        style = filled
+        label = "Legend"
+        
+        "Deep knowledge" [fillcolor = red]
+        "Advanced concepts" [fillcolor = orange]
+        "Common concepts" [fillcolor = green]
+        "Basic concepts" [fillcolor = cyan]
+    }
+    
+    // Data types, variables...
+    
+    "Data type concept" [fillcolor = cyan]
+    "Integers" [fillcolor = cyan]
+    "Integer arithmetic" [fillcolor = cyan]
+    "Booleans" [fillcolor = cyan]
+    "Floating-point" [fillcolor = green]
+    "Floating-point arithmetic" [fillcolor = green]
+    "Strings" [fillcolor = cyan]
+    "Variables" [fillcolor = cyan]
+    "Constants" [fillcolor = cyan]
+    "1D Arrays" [fillcolor = cyan]
+    "2D Matrix" [fillcolor = green]
+    "N-Dimensional Arrays" [fillcolor = green]
+    "Structures" [fillcolor = green]
+    "Vectors" [fillcolor = green]
+    "Linked lists" [fillcolor = red]
+    "Hash-Tables" [fillcolor = red]
+    "Binary tree" [fillcolor = red]
+
+
+    // Objects, classes
+
+    "Classes" [fillcolor = orange]
+    "Objects" [fillcolor = orange]
+    "Class fields" [fillcolor = orange]
+    "Class methods" [fillcolor = orange]
+    "Class inheritance" [fillcolor = orange]
+    "Method override" [fillcolor = orange]
+
+
+    // External interactions
+
+    "Standard input" [fillcolor = cyan]
+    "Standard output" [fillcolor = cyan]
+    "Standard error output" [fillcolor = green]
+
+
+    // Functional
+
+    "Functions" [fillcolor = cyan]
+    "Function parameters" [fillcolor = cyan]
+    "Function overload" [fillcolor = orange]
+    "Anonymous (Lambda) functions" [fillcolor = orange]
+
+
+    // Conditionals, loops
+
+    "If conditional" [fillcolor = cyan]
+    "Ternary conditional" [fillcolor = green]
+    "While loops" [fillcolor = cyan]
+    "Do-While loops" [fillcolor = green]
+    "For loops" [fillcolor = green]
+    "For-In loops" [fillcolor = green]
+    
+
+    // Memory
+
+    "Pointers" [fillcolor = red]
+    "Pointer arithmetic" [fillcolor = red]
+    "References" [fillcolor = red]
+    "Memory structure" [fillcolor = red]
+    "Dynamic memory" [fillcolor = red]
+    "Stack memory" [fillcolor = red]
+
+
+    // Threading
+
+    "Threads" [fillcolor = orange]
+    "Concurrency" [fillcolor = red]
+    "Mutex" [fillcolor = red]
+
+    
+    // Dependencies
+
+    "Structures" -> "Classes"
+    "Classes" -> "Objects"
+    "Classes" -> "Class inheritance"
+    "Classes" -> "Class fields"
+    "Classes" -> "Class methods"
+    "Class methods" -> "Method override"
+    "Class inheritance" -> "Method override"
+    "Threads" -> "Concurrency"
+    "Pointers" -> "Concurrency"
+    "Concurrency" -> "Mutex"
+    "Structures" -> "Vectors"
+    "1D Arrays" -> "Vectors"
+    "Vectors" -> "Linked lists"
+    "Pointers" -> "Linked lists"
+    "Pointers" -> "Hash-Tables"
+    "Structures" -> "Hash-Tables"
+    "Pointers" -> "Binary tree"
+    "Structures" -> "Binary tree"
+    "Data type concept" -> "Variables"
+    "Data type concept" -> "Integers"
+    "Data type concept" -> "Booleans"
+    "Data type concept" -> "Floating-point"
+    "Data type concept" -> "Strings"
+    "Data type concept" -> "1D Arrays"
+    "Data type concept" -> "Structures"
+    "Data type concept" -> "Pointers"
+    "Standard output" -> "Standard error output"
+    "Memory structure" -> "Dynamic memory"
+    "Memory structure" -> "Stack memory"
+    "Variables" -> "Stack memory"
+    "Dynamic memory" -> "Pointers"
+    "Pointers" -> "Pointer arithmetic"
+    "Pointers" -> "References"
+    "Integers" -> "Integer arithmetic"
+    "Floating-point" -> "Floating-point arithmetic"
+    "Integers" -> "Floating-point"
+    "Functions" -> "Function parameters"
+    "Variables" -> "Function parameters"
+    "Variables" -> "Constants"
+    "Functions" -> "Anonymous (Lambda) functions"
+    "Functions" -> "Function overload"
+    "Variables" -> "If conditional"
+    "If conditional" -> "Ternary conditional"
+    "If conditional" -> "While loops"
+    "While loops" -> "For loops"
+    "While loops" -> "Do-While loops"
+    "For loops" -> "For-In loops"
+    "1D Arrays" -> "For-In loops"
+    "Variables" -> "1D Arrays"
+    "1D Arrays" -> "2D Matrix"
+    "2D Matrix" -> "N-Dimensional Arrays"
+}
+  `;
+
+  function render() {
+      graphviz.renderDot(dot);
+  }
+</script>
