@@ -18,13 +18,6 @@
   const graphviz = d3
       .select("#graph")
       .graphviz()
-      .transition(function () {
-        return d3
-          .transition("main")
-          .ease(d3.easeLinear)
-          .delay(500)
-          .duration(1500);
-      })
       .logEvents(true)
       .on("initEnd", render);
 
@@ -47,12 +40,15 @@ digraph G {
         "Basic concepts" [fillcolor = cyan]
     }
     
+
     // Data types, variables...
     
     "Data type concept" [fillcolor = cyan]
     "Integers" [fillcolor = cyan]
     "Integer arithmetic" [fillcolor = cyan]
+    "Bitwise operations" [fillcolor = green]
     "Booleans" [fillcolor = cyan]
+    "Boolean logic" [fillcolor = cyan]
     "Floating-point" [fillcolor = green]
     "Floating-point arithmetic" [fillcolor = green]
     "Strings" [fillcolor = cyan]
@@ -71,11 +67,15 @@ digraph G {
     // Objects, classes
 
     "Classes" [fillcolor = orange]
+    "Constructors" [fillcolor = orange]
+    "Copy constructors" [fillcolor = orange]
+    "Move constructors" [fillcolor = orange]
     "Objects" [fillcolor = orange]
     "Class fields" [fillcolor = orange]
     "Class methods" [fillcolor = orange]
     "Class inheritance" [fillcolor = orange]
     "Method override" [fillcolor = orange]
+    "Operator overload" [fillcolor = orange]
 
 
     // External interactions
@@ -127,6 +127,9 @@ digraph G {
     "Classes" -> "Class inheritance"
     "Classes" -> "Class fields"
     "Classes" -> "Class methods"
+    "Classes" -> "Constructors"
+    "Constructors" -> "Copy constructors"
+    "Copy constructors" -> "Move constructors"
     "Class methods" -> "Method override"
     "Class inheritance" -> "Method override"
     "Threads" -> "Concurrency"
@@ -148,6 +151,8 @@ digraph G {
     "Data type concept" -> "1D Arrays"
     "Data type concept" -> "Structures"
     "Data type concept" -> "Pointers"
+    "Booleans" -> "Boolean logic"
+    "Boolean logic" -> "Bitwise operations"
     "Standard output" -> "Standard error output"
     "Memory structure" -> "Dynamic memory"
     "Memory structure" -> "Stack memory"
@@ -163,6 +168,8 @@ digraph G {
     "Variables" -> "Constants"
     "Functions" -> "Anonymous (Lambda) functions"
     "Functions" -> "Function overload"
+    "Function overload" -> "Operator overload"
+    "Class methods" -> "Operator overload"
     "Variables" -> "If conditional"
     "If conditional" -> "Ternary conditional"
     "If conditional" -> "While loops"
