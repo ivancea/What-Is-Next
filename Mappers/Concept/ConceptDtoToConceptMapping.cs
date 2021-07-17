@@ -13,6 +13,7 @@ namespace WhatIsNext.Mappers
             {
                 Name = input.Name,
                 Description = input.Description,
+                Level = input.Level,
             };
         }
     }

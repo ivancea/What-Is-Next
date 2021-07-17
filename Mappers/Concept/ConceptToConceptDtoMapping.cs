@@ -14,6 +14,7 @@ namespace WhatIsNext.Mappers
                 Id = input.Id,
                 Name = input.Name,
                 Description = input.Description,
+                Level = input.Level,
                 DependenciesIds = input.Dependencies.Select(d => d.Id).ToList(),
                 GraphId = input.Graph.Id
             };

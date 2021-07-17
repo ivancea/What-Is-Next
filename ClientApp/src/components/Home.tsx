@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { config } from "../Config";
 import { Graph as GraphType } from "../types/graph";
 import ApiListSelector from "./ApiListSelector";
 import Graph from "./Graph";
@@ -15,7 +16,7 @@ export function Home(): React.ReactElement {
     return (
         <div>
             <ApiListSelector
-                url="/api/topics"
+                url={`${config.url}/api/topics`}
                 elementName="topic"
                 keySelector={(topic) => topic}
                 render={(topic) => topic}
@@ -27,7 +28,7 @@ export function Home(): React.ReactElement {
                 <>
                     <hr />
                     <ApiListSelector
-                        url={`/api/topics/${encodeURIComponent(selectedTopic)}/graphs`}
+                        url={`${config.url}/api/topics/${encodeURIComponent(selectedTopic)}/graphs`}
                         elementName="graph"
                         keySelector={(graph) => graph.id}
                         render={(graph) => `${graph.name} (${graph.description})`}

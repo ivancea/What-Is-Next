@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using WhatIsNext.Model.Enums;
 
 namespace WhatIsNext.Dtos
 {
@@ -12,6 +13,9 @@ namespace WhatIsNext.Dtos
 
         [Required]
         public string Description { get; set; }
+
+        [Required]
+        public ConceptLevel Level { get; set; }
 
         public ICollection<int> DependenciesIds { get; set; }
 

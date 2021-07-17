@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using WhatIsNext.Model.Enums;
 
 namespace WhatIsNext.Model.Entities
 {
@@ -19,6 +20,9 @@ namespace WhatIsNext.Model.Entities
 
         [Required]
         public string Description { get; set; }
+
+        [Required]
+        public ConceptLevel Level { get; set; }
 
         public virtual ICollection<Concept> Dependencies { get; } = new List<Concept>();
 

@@ -8,6 +8,7 @@ namespace WhatIsNext.Mappers
         {
             target.Name = source.Name;
             target.Description = source.Description;
+            target.Level = source.Level;
         }
     }
 }

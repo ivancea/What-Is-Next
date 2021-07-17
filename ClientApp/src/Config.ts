@@ -1,13 +1,9 @@
 const prod = {
-    url: {
-        API: "/",
-    },
+    url: "/",
 };
 
 const dev = {
-    url: {
-        API: "https://localhost:5001/",
-    },
+    url: "http://localhost",
 };
 
 export const config = process.env.NODE_ENV === "development" ? dev : prod;

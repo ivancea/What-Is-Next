@@ -9,7 +9,7 @@ type Props<T> = {
     onElementSelected: (element?: T) => void;
 };
 
-export default function TopicSelector<T>({
+export default function ApiListSelector<T>({
     url,
     elementName,
     keySelector,

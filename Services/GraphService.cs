@@ -6,6 +6,7 @@ using WhatIsNext.Dtos;
 using WhatIsNext.Mappers;
 using WhatIsNext.Model.Contexts;
 using WhatIsNext.Model.Entities;
+using WhatIsNext.Model.Enums;
 
 namespace WhatIsNext.Services
 {
@@ -40,29 +41,32 @@ namespace WhatIsNext.Services
 
         public void InsertTestData()
         {
-            Concept basicsConcept = new Concept
+            var basicsConcept = new Concept
             {
                 Name = "Syntax",
                 Description = "Language syntax",
+                Level = ConceptLevel.Basic,
             };
 
-            Concept stdConcept = new Concept
+            var stdConcept = new Concept
             {
                 Name = "Standard library",
                 Description = "Standard library",
+                Level = ConceptLevel.Common,
             };
 
-            Concept externalLibraryConcept = new Concept
+            var externalLibraryConcept = new Concept
             {
                 Name = "External library",
                 Description = "External library",
+                Level = ConceptLevel.Advanced,
             };
 
             stdConcept.Dependencies.Add(basicsConcept);
             externalLibraryConcept.Dependencies.Add(stdConcept);
             externalLibraryConcept.Dependencies.Add(basicsConcept);
 
-            Graph graph = new Graph
+            var graph = new Graph
             {
                 Topic = "C++",
                 Name = "Test C++ graph",
@@ -98,7 +102,7 @@ namespace WhatIsNext.Services
 
         public GraphDto GetGraphById(int id)
         {
-            Graph graph = winContext.Graphs
+            var graph = winContext.Graphs
                 .SingleOrDefault(g => g.Id == id);
 
             if (graph == null)
@@ -111,7 +115,7 @@ namespace WhatIsNext.Services
 
         public void AddGraph(GraphDto graphDto)
         {
-            Graph graph = graphDtoToGraphMapping.Map(graphDto);
+            var graph = graphDtoToGraphMapping.Map(graphDto);
 
             winContext.Graphs.Add(graph);
             winContext.SaveChanges();
@@ -119,7 +123,7 @@ namespace WhatIsNext.Services
 
         public void UpdateGraph(int id, GraphDto graphDto)
         {
-            Graph actualGraph = winContext.Graphs
+            var actualGraph = winContext.Graphs
                 .SingleOrDefault(g => g.Id == id);
 
             if (actualGraph == null)
@@ -127,7 +131,7 @@ namespace WhatIsNext.Services
                 return;
             }
 
-            Graph graph = graphDtoToGraphMapping.Map(graphDto);
+            var graph = graphDtoToGraphMapping.Map(graphDto);
 
             graphUpdater.Update(actualGraph, graph);
 
@@ -136,7 +140,7 @@ namespace WhatIsNext.Services
 
         public void DeleteGraph(int id)
         {
-            Graph graph = winContext.Graphs
+            var graph = winContext.Graphs
                 .SingleOrDefault(g => g.Id == id);
 
             if (graph != null)
@@ -168,10 +172,10 @@ namespace WhatIsNext.Services
 
         public void AddConcept(int graphId, ConceptDto conceptDto)
         {
-            Graph graph = winContext.Graphs
+            var graph = winContext.Graphs
                 .SingleOrDefault(g => g.Id == graphId);
 
-            Concept concept = conceptDtoToConceptMapping.Map(conceptDto);
+            var concept = conceptDtoToConceptMapping.Map(conceptDto);
 
             concept.Graph = graph;
 
@@ -189,7 +193,7 @@ namespace WhatIsNext.Services
 
         public void UpdateConcept(int graphId, int id, ConceptDto conceptDto)
         {
-            Concept actualConcept = winContext.Concepts
+            var actualConcept = winContext.Concepts
                 .Include(c => c.Dependencies)
                 .SingleOrDefault(c => c.Id == id && c.Graph.Id == graphId);
 
@@ -198,7 +202,7 @@ namespace WhatIsNext.Services
                 return;
             }
 
-            Concept concept = conceptDtoToConceptMapping.Map(conceptDto);
+            var concept = conceptDtoToConceptMapping.Map(conceptDto);
 
             conceptUpdater.Update(actualConcept, concept);
 
@@ -216,7 +220,7 @@ namespace WhatIsNext.Services
 
         public void DeleteConcept(int graphId, int id)
         {
-            Concept concept = winContext.Concepts
+            var concept = winContext.Concepts
                 .SingleOrDefault(c => c.Id == id && c.Graph.Id == graphId);
 
             if (concept != null)

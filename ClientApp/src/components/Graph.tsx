@@ -1,16 +1,33 @@
 import React, { useState, useEffect } from "react";
 import go from "gojs";
-import { Concept, Graph as GraphType } from "../types/graph";
+import { Concept, ConceptLevel, Graph as GraphType } from "../types/graph";
+import { config } from "../Config";
 
 type Props = {
     selectedGraph: GraphType;
 };
 
+function levelToColor(level: ConceptLevel): string {
+    // Switch on level returning values cyan, green, orange and red
+    switch (level) {
+        case ConceptLevel.Basic:
+            return "cyan";
+        case ConceptLevel.Common:
+            return "green";
+        case ConceptLevel.Advanced:
+            return "orange";
+        case ConceptLevel.Deep:
+            return "red";
+        default:
+            return "white";
+    }
+}
+
 export default function Graph({ selectedGraph }: Props): React.ReactElement {
     const [concepts, setConcepts] = useState<Concept[]>();
 
     useEffect(() => {
-        fetch(`/api/graphs/${selectedGraph.id}/concepts`)
+        fetch(`${config.url}/api/graphs/${selectedGraph.id}/concepts`)
             .then((response) => response.json())
             .then((fetchedConcepts) => {
                 setConcepts(fetchedConcepts);
@@ -23,14 +40,9 @@ export default function Graph({ selectedGraph }: Props): React.ReactElement {
 
     useEffect(() => {
         if (concepts) {
-            const conceptsById: Record<number, Concept> = {};
-
-            concepts.forEach((concept) => (conceptsById[concept.id] = concept));
-
             const $ = go.GraphObject.make;
 
             const diagram = $(go.Diagram, "diagram", {
-                // enable undo & redo
                 "undoManager.isEnabled": true,
                 layout: $(go.LayeredDigraphLayout),
             });
@@ -38,25 +50,27 @@ export default function Graph({ selectedGraph }: Props): React.ReactElement {
             diagram.nodeTemplate = $(
                 go.Node,
                 "Auto",
-                $(go.Shape, "RoundedRectangle", {
-                    strokeWidth: 0,
-                    fill: "lightgreen",
-                }),
+                $(
+                    go.Shape,
+                    "RoundedRectangle",
+                    {
+                        strokeWidth: 0,
+                    },
+                    new go.Binding("fill", "level", levelToColor),
+                ),
                 $(go.TextBlock, { margin: 8 }, new go.Binding("text", "name")),
             );
 
-            diagram.model = new go.GraphLinksModel(
-                Object.values(conceptsById).map((concept) => ({
-                    key: concept.id,
-                    name: concept.name,
-                })),
-                Object.values(conceptsById).flatMap((concept) =>
+            diagram.model = $(go.GraphLinksModel, {
+                nodeKeyProperty: "id",
+                nodeDataArray: concepts,
+                linkDataArray: concepts.flatMap((concept) =>
                     concept.dependenciesIds.map((dependencyId) => ({
                         from: dependencyId,
                         to: concept.id,
                     })),
                 ),
-            );
+            });
 
             (diagram.layout as go.LayeredDigraphLayout).direction = 90;
 
