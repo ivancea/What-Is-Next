@@ -1,5 +1,5 @@
 const prod = {
-    url: "/",
+    url: "",
 };
 
 const dev = {

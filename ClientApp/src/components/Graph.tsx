@@ -8,7 +8,6 @@ type Props = {
 };
 
 function levelToColor(level: ConceptLevel): string {
-    // Switch on level returning values cyan, green, orange and red
     switch (level) {
         case ConceptLevel.Basic:
             return "cyan";
