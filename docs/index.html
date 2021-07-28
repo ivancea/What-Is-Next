@@ -76,6 +76,7 @@ digraph G {
     "Class inheritance" [fillcolor = orange]
     "Method override" [fillcolor = orange]
     "Operator overload" [fillcolor = orange]
+    "This/Self keywords" [fillcolor = orange]
 
 
     // External interactions
@@ -127,9 +128,11 @@ digraph G {
     "Classes" -> "Class inheritance"
     "Classes" -> "Class fields"
     "Classes" -> "Class methods"
-    "Classes" -> "Constructors"
+    "Class methods" -> "Constructors"
+    "Class methods" -> "This/Self keywords"
     "Constructors" -> "Copy constructors"
     "Copy constructors" -> "Move constructors"
+    "Functions" -> "Class methods"
     "Class methods" -> "Method override"
     "Class inheritance" -> "Method override"
     "Threads" -> "Concurrency"
