@@ -27,8 +27,7 @@ namespace WhatIsNext.Services
             IEntityUpdater<Graph> graphUpdater,
             IClassMapping<Concept, ConceptDto> conceptToConceptDtoMapping,
             IClassMapping<ConceptDto, Concept> conceptDtoToConceptMapping,
-            IEntityUpdater<Concept> conceptUpdater
-        )
+            IEntityUpdater<Concept> conceptUpdater)
         {
             this.winContext = winContext;
             this.graphToGraphDtoMapping = graphToGraphDtoMapping;
@@ -76,7 +75,7 @@ namespace WhatIsNext.Services
                     basicsConcept,
                     stdConcept,
                     externalLibraryConcept,
-                }
+                },
             };
 
             winContext.Graphs.Add(graph);

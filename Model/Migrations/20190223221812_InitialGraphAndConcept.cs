@@ -15,7 +15,7 @@ namespace WhatIsNext.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     Topic = table.Column<string>(nullable: false),
                     Name = table.Column<string>(nullable: false),
-                    Description = table.Column<string>(nullable: false)
+                    Description = table.Column<string>(nullable: false),
                 },
                 constraints: table =>
                 {
@@ -31,7 +31,7 @@ namespace WhatIsNext.Migrations
                     Name = table.Column<string>(nullable: false),
                     Description = table.Column<string>(nullable: false),
                     GraphId = table.Column<int>(nullable: false),
-                    ConceptId = table.Column<int>(nullable: true)
+                    ConceptId = table.Column<int>(nullable: true),
                 },
                 constraints: table =>
                 {

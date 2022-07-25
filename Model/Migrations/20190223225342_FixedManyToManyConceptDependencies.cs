@@ -23,7 +23,7 @@ namespace WhatIsNext.Migrations
                 columns: table => new
                 {
                     ConceptId = table.Column<int>(nullable: false),
-                    DependencyId = table.Column<int>(nullable: false)
+                    DependencyId = table.Column<int>(nullable: false),
                 },
                 constraints: table =>
                 {
