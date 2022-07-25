@@ -35,7 +35,7 @@ namespace WhatIsNext.Migrations
                 columns: table => new
                 {
                     DependantConceptsId = table.Column<int>(type: "integer", nullable: false),
-                    DependenciesId = table.Column<int>(type: "integer", nullable: false)
+                    DependenciesId = table.Column<int>(type: "integer", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -90,7 +90,7 @@ namespace WhatIsNext.Migrations
                 columns: table => new
                 {
                     ConceptId = table.Column<int>(type: "integer", nullable: false),
-                    DependencyId = table.Column<int>(type: "integer", nullable: false)
+                    DependencyId = table.Column<int>(type: "integer", nullable: false),
                 },
                 constraints: table =>
                 {

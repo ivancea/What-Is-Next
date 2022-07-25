@@ -7,6 +7,6 @@ namespace WhatIsNext.Model.Enums
         Basic,
         Common,
         Advanced,
-        Deep
+        Deep,
     }
 }

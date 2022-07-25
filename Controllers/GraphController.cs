@@ -44,13 +44,13 @@ namespace WhatIsNext.Controllers
         }
 
         [HttpPost("graphs")]
-        public void AddGraph([FromBody]GraphDto graphDto)
+        public void AddGraph([FromBody] GraphDto graphDto)
         {
             graphService.AddGraph(graphDto);
         }
 
         [HttpPut("graphs/{id}")]
-        public void UpdateGraph(int id, [FromBody]GraphDto graphDto)
+        public void UpdateGraph(int id, [FromBody] GraphDto graphDto)
         {
             graphService.UpdateGraph(id, graphDto);
         }
@@ -74,13 +74,13 @@ namespace WhatIsNext.Controllers
         }
 
         [HttpPost("graphs/{graphId}/concepts")]
-        public void AddConcept(int graphId, [FromBody]ConceptDto conceptDto)
+        public void AddConcept(int graphId, [FromBody] ConceptDto conceptDto)
         {
             graphService.AddConcept(graphId, conceptDto);
         }
 
         [HttpPut("graphs/{graphId}/concepts/{id}")]
-        public void UpdateConcept(int graphId, int id, [FromBody]ConceptDto conceptDto)
+        public void UpdateConcept(int graphId, int id, [FromBody] ConceptDto conceptDto)
         {
             graphService.UpdateConcept(graphId, id, conceptDto);
         }
