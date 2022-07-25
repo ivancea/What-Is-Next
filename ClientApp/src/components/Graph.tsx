@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
 import go from "gojs";
-import { Concept, ConceptLevel, Graph as GraphType } from "../types/graph";
+import React, { useEffect, useState } from "react";
 import { config } from "../Config";
+import { Concept, ConceptLevel, Graph as GraphType } from "../types/graph";
 
 type Props = {
     selectedGraph: GraphType;
