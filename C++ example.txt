@@ -1,0 +1,146 @@
+[
+  {
+    "id": 1,
+    "name": "Basic syntax and hello world",
+    "description": "Creating a hello world file and learning the basis of syntax",
+    "dependenciesIds": [],
+    "graphId": 1
+  },
+  {
+    "id": 7,
+    "name": "Basic primitive types",
+    "description": "Primitive types required to start programming: int, char, bool",
+    "dependenciesIds": [
+      1
+    ],
+    "graphId": 1
+  },
+  {
+    "id": 8,
+    "name": "Variable declaration",
+    "description": "Variable declarations",
+    "dependenciesIds": [
+      7
+    ],
+    "graphId": 1
+  },
+  {
+    "id": 9,
+    "name": "If conditional",
+    "description": "Creating conditional blocks",
+    "dependenciesIds": [
+      8
+    ],
+    "graphId": 1
+  },
+  {
+    "id": 10,
+    "name": "Basic operations with int variables",
+    "description": "Operations with numeric variables, like (+, -, *, /)",
+    "dependenciesIds": [
+      8
+    ],
+    "graphId": 1
+  },
+  {
+    "id": 11,
+    "name": "String type",
+    "description": "String type and working with chars",
+    "dependenciesIds": [
+      7
+    ],
+    "graphId": 1
+  },
+  {
+    "id": 12,
+    "name": "Arrays",
+    "description": "Working with arrays",
+    "dependenciesIds": [
+      7
+    ],
+    "graphId": 1
+  },
+  {
+    "id": 13,
+    "name": "Multidimensional arrays",
+    "description": "Working with multidimensional arrays",
+    "dependenciesIds": [
+      12
+    ],
+    "graphId": 1
+  },
+  {
+    "id": 14,
+    "name": "While loops",
+    "description": "Simple conditional loop",
+    "dependenciesIds": [
+      9
+    ],
+    "graphId": 1
+  },
+  {
+    "id": 15,
+    "name": "Do-while loops",
+    "description": "Do while loops, same as while, but executing the code block first",
+    "dependenciesIds": [
+      14
+    ],
+    "graphId": 1
+  },
+  {
+    "id": 16,
+    "name": "For loops",
+    "description": "Loops with managed variables initialization, conditions and operations",
+    "dependenciesIds": [
+      14
+    ],
+    "graphId": 1
+  },
+  {
+    "id": 17,
+    "name": "Range based for loops",
+    "description": "Loops over an array, container, iterator...",
+    "dependenciesIds": [
+      12,
+      16
+    ],
+    "graphId": 1
+  },
+  {
+    "id": 18,
+    "name": "Basic operations with string variables",
+    "description": "Operations with string variables, like concatenation (+) or index access ([])",
+    "dependenciesIds": [
+      11
+    ],
+    "graphId": 1
+  },
+  {
+    "id": 19,
+    "name": "Calling methods",
+    "description": "Call method of a object, for example, the method 'substr' (str.substr(index, count)) of a string",
+    "dependenciesIds": [
+      11
+    ],
+    "graphId": 1
+  },
+  {
+    "id": 20,
+    "name": "Console output",
+    "description": "Basic console output",
+    "dependenciesIds": [
+      1
+    ],
+    "graphId": 1
+  },
+  {
+    "id": 21,
+    "name": "Console input",
+    "description": "Saving console input to a variable",
+    "dependenciesIds": [
+      8,
+      20
+    ],
+    "graphId": 1
+  }
+]
