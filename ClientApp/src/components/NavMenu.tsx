@@ -29,7 +29,7 @@ export class NavMenu extends React.PureComponent<unknown, State> {
                 <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" light>
                     <Container>
                         <NavbarBrand tag={Link} to="/">
-                            Git monitor
+                            What is next
                         </NavbarBrand>
                         <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
                         <Collapse
